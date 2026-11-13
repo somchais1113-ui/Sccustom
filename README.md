@@ -1,8 +1,16 @@
-# SCCUSTOM — Smart Artwork Studio v1.1.0 (GitHub Pages)
+# SCCUSTOM — Smart Artwork Studio v1.1.1 (GitHub Pages)
 
 **GitHub Pages-ready static website.** This is an upgrade of SCCUSTOM v1.0, retaining its existing design, brand-logo selector, 6-color mixed-pen variants, existing jobs, 1:1 SVG output and A4 proof layouts.
 
-## What is new in v1.1
+## v1.1.1 — โลโก้หัวเอกสารตั้งจากไฟล์กลาง
+
+- ผู้ดูแลวาง SVG, PNG หรือ WebP ใน `assets/brand-logos/` และใส่พาธใน `config/brand-logos.js` แล้ว commit ขึ้น GitHub
+- Sale เลือกได้เฉพาะโลโก้ที่ตั้งค่าและโหลดได้จริง ไม่มีปุ่มอัปโหลดโลโก้หัวเอกสารรายงาน
+- แพ็กเกจนี้ยังไม่มีไฟล์โลโก้ปัจจุบันที่ยืนยันแล้ว จึงเริ่มต้นด้วยทุกแบรนด์ยังไม่ตั้งค่า รวมถึง Quantum ตัวเก่า จะเปิด Customer Proof หรือ Production Spec ได้หลังเลือกโลโก้กลางที่พร้อมใช้
+- งานเดิมยังเปิดแก้ได้ ถ้าเคยใช้โลโก้รายงานหรือโลโก้ที่ยังไม่ตั้งค่า ให้เลือกโลโก้กลางใหม่ก่อนเปิด PDF ส่วนโลโก้ลูกค้าสำหรับสกรีนยังอัปโหลดได้ในขั้นที่ 3
+- ดู [คู่มือตั้งโลโก้และแยกโฟลเดอร์รูปสินค้า](docs/BRAND_LOGO_SETUP.md)
+
+## What was added in v1.1
 
 - **Text Artwork:** in Step 3 switch from "อัปโหลดโลโก้" to "พิมพ์ข้อความ". Enter Thai/English text; choose a specimen font from Prompt, Kanit, Sarabun, IBM Plex Sans Thai, Mitr and Bai Jamjuree. Enter size with existing Fit and Offset controls.
 - **Optional Create Outlines:** for production, click **แปลงข้อความเป็น Vector Paths** and select a licensed **TTF/OTF file that you provide**. The browser fetches the pinned `fontkit@2.0.4` JS engine on demand and creates SVG `<path>` outlines. Exact shaping and Thai marks must be checked visually and approved in prepress. No fonts are included in this package or saved in the project.
@@ -28,7 +36,7 @@ Local test: `python3 -m http.server 8000` from this folder and open `http://loca
 3. When text changes, the old outline is invalidated and production export is blocked until conversion is run again. The original editable text is still stored. **Thai text and marks must be checked before production.** Raster images are **proof only**.
 4. Custom product images currently save only in **local browser storage** and in exported Product Catalog JSON. The Product Library admin is **not** a cloud product database and does not yet write catalog assets into Google Drive. Add a real database and admin access control before team-wide use.
 5. Google Drive Sync is optional and only runs once you configure OAuth on **your own Google Cloud project**. Each authorized user can access app-created Drive files permitted by their Google account. It does not provide central login, company role controls or automatic shared-team access. The `drive.file` scope is intentionally narrow.
-6. Brand header logo and product brand are **different**. Brand-header logos other than Quantum are currently text-based placeholders until approved official SVG/PNG files are supplied. Changing the header logo does not change the customer print artwork.
+6. Brand header logo and product brand are **different**. Configure approved assets via `config/brand-logos.js`. Changing the header logo does not change the customer print artwork.
 7. User data stored in browser localStorage can be lost when clearing site data or switching computers. Save JSON backups and use a managed Drive workflow for real work.
 8. The image overlay position is visual-only and calibrated only approximately for the demo Quantum image; **validate each new product's print area** against actual product measurements before relying on the preview.
 9. Printing proof PDF uses browser Print / Save as PDF. Choose 100%, turn off Fit to Page and verify output dimensions. Production vector output uses standalone SVG.
@@ -44,7 +52,9 @@ vector.js              # safe SVG import, actual-mm SVG assembly
 text-outline.js        # on-demand client-side text outlines
 exporter.js            # proof/production print, vector and ZIP output
 drive-sync.js          # user-authorized Drive save/list/open
-assets/                # 6 demo product color images and Quantum sample logo
+brand-logos.js         # shared logo registry and image validation
+config/brand-logos.js  # admin-maintained template logo paths
+assets/                # 6 demo product photos and brand-logos/
 product-library/       # upload standards, brand folders and examples
 docs/                  # operational guides
 examples/              # SVG input test artwork

@@ -38,3 +38,21 @@
 @media(max-width:560px){.brand-chip-grid{gap:6px}.brand-chip-grid>span{font-size:11px;padding:11px 8px}.cloud-card{padding:16px}.cloud-actions>*{width:100%}.text-editor .two-inputs{grid-template-columns:1fr}}
 
 .font-sample{font-size:20px;line-height:1.5;border:1px solid #dde6ee;background:#f7faff;border-radius:9px;padding:15px 12px;overflow-wrap:anywhere;text-align:center;color:#182c43}
+
+/* Managed template brand logos */
+.brand-settings .sidebar-subtitle{margin-bottom:3px}
+.brand-option-label{min-width:0;overflow-wrap:anywhere}
+.brand-option-label small{display:block;color:#56677c;font-size:10.5px;line-height:1.25}
+.brand-option.brand-unset{cursor:default;background:#fafbfd;border-color:transparent;color:#46576b}
+.brand-option.brand-unset input{cursor:not-allowed}
+.brand-art img,.paper-brand img{display:block;object-fit:contain}
+.brand-placeholder{color:#56677c;text-align:center;font-size:11px;line-height:1.35}
+.brand-doc-hint{grid-column:1/-1;margin:0;padding:9px 12px;border-radius:8px;background:#fff7e8;color:#724b12;font-size:12px}
+.output-panel .brand-doc-hint{margin-top:12px}
+.export-item:disabled,.action-card:disabled{cursor:not-allowed}
+@media(max-width:850px){
+  .brand-settings .sidebar-subtitle,.brand-settings .sidebar-tip{display:block}
+  .brand-settings .sidebar-subtitle{margin-top:14px}
+  .brand-settings .brand-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:3px}
+  .brand-settings .brand-art{width:46px;flex-basis:46px}
+}

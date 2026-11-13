@@ -1,4 +1,12 @@
-# SCCUSTOM v1.1.0 — Release notes
+# SCCUSTOM v1.1.1 — Release notes
+
+- Template header logos now come only from the version-controlled list in `config/brand-logos.js`.
+- Unset or broken logo files cannot be selected. Customer Proof and Production Spec require a configured logo.
+- The supplied package does not include confirmed current marks. Enable the brands after adding their assets. The old Quantum sample is not used as a header fallback.
+- Customer artwork uploads, project storage and artwork-only SVG/ZIP exports are unchanged.
+- Existing jobs with an unset brand or a legacy per-job header need a new selection before opening a branded PDF.
+
+## v1.1.0 — Previous release
 
 ## New
 - Text-only Artwork mode, font specimen dropdown (6 Thai-capable families).

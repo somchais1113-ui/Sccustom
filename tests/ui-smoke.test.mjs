@@ -11,11 +11,15 @@ test('initial UI renders and text-editor step is interactive with event bindings
   assert.match(app.innerHTML,/SCCUSTOM/);
   assert.match(app.innerHTML,/Quantum/);
   assert.match(app.innerHTML,/Colour Variants/);
+  assert.match(app.innerHTML,/value="elfen" data-brand="1"\s+disabled/);
+  assert.match(app.innerHTML,/data-action="proof" disabled/);
+  assert.doesNotMatch(app.innerHTML,/trigger-brand|brand-file/);
   const click=async(action,dataset={})=>{
     const btn={dataset:{action,...dataset}};await listeners.click({preventDefault(){},target:{closest(){return btn;}}});
   };
   await click('goto-step',{step:'3'});
   assert.match(app.innerHTML,/Upload & Configure Artwork/);
+  assert.match(app.innerHTML,/id="logo-file"/);
   await click('artwork-mode',{value:'text'});
   assert.match(app.innerHTML,/data-text-value/);
   assert.match(app.innerHTML,/แปลงข้อความเป็น Vector Paths/);

@@ -13,18 +13,6 @@ export const PRODUCT = {
     {id:'black',name:'ดำ',en:'Black',swatch:'#344050',photo:'assets/pen-black.webp'}
   ]
 };
-export const BRANDS = [
-  {id:'quantum',name:'Quantum',kind:'image',logo:'assets/quantum-brand.png'},
-  {id:'elephant',name:'Elephant',kind:'text'},
-  {id:'elfen',name:'Elfen',kind:'text'},
-  {id:'uni',name:'Uni',kind:'text'},
-  {id:'mitsubishi',name:'Mitsubishi',kind:'text'},
-  {id:'master-art',name:'Master Art',kind:'text'},
-  {id:'ultimatum',name:'Ultimatum',kind:'text'},
-  {id:'artifact',name:'Artifact',kind:'text'},
-  {id:'sccustom',name:'SCCUSTOM',kind:'text'},
-  {id:'custom',name:'โลโก้ที่อัปโหลด',kind:'custom'}
-];
 export const INKS = [
   {id:'black',name:'PANTONE BLACK C',short:'BLACK C',hex:'#181b21'},
   {id:'white',name:'WHITE',short:'WHITE',hex:'#ffffff'},
@@ -46,7 +34,7 @@ export function newJob(){
   return {
     id:'ART-'+new Date().getFullYear()+'-'+Math.floor(Date.now()%1000000).toString().padStart(6,'0'),
     createdAt:new Date().toISOString(), modifiedAt:new Date().toISOString(), revision:1,
-    customer:'',representative:'',po:'',ext:'',productId:PRODUCT.id,productSpec:structuredClone(PRODUCT),brandId:'quantum',customBrandLogo:null,
+    customer:'',representative:'',po:'',ext:'',productId:PRODUCT.id,productSpec:structuredClone(PRODUCT),brandId:null,
     inkCount:1,sameInk:true,sharedInks:['black','red','blue'],
     variants:Object.fromEntries(PRODUCT.variants.map(v=>[v.id,{enabled:true,qty:200,inks:[v.id==='black'?'white':'black','red','blue']} ])),
     logo:{sourceType:'demo',name:'MARDOZIA — SAMPLE',data:null,markup:null,palette:['#181b21'],aspect:6,vector:false,notes:[]},
