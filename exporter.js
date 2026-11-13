@@ -5,8 +5,8 @@ export function preflight(job){
   const issues=[];
   const active=activeVariants(job);
   if(active.length===0)issues.push({level:'block',text:'ต้องเลือกสีด้ามอย่างน้อย 1 สี'});
-  if(!job.customer.trim())issues.push({level:'warn',text:'ยังไม่ได้ระบุชื่อลูกค้า'});
-  if(!job.logo.vector)issues.push({level:'block',text:'Artwork ยังไม่เป็นเวกเตอร์ SVG ที่รองรับ (ไฟล์ตัวอย่างหรือภาพ Raster ใช้ทำ Proof ได้เท่านั้น)'});
+  if(!(job.customer||'').trim())issues.push({level:'warn',text:'ยังไม่ได้ระบุชื่อลูกค้า'});
+  if(!job.logo.vector)issues.push({level:'block',text:'Artwork ยังไม่ได้เป็น Vector Outlines (สำหรับข้อความให้กด แปลงเป็น Paths หลังอัปโหลดฟอนต์ TTF/OTF)'});
   if(job.logo.vector&&(job.logo.palette||[]).length>job.inkCount)issues.push({level:'block',text:'โลโก้มีสีมากกว่าจำนวน Ink ที่ตั้งค่า กรุณาเพิ่มจำนวนสีพิมพ์หรือเตรียม Vector ใหม่'});
   if(job.logo.vector&&(job.logo.palette||[]).length<job.inkCount)issues.push({level:'block',text:'จำนวนสีพิมพ์มากกว่าสีจริงในโลโก้ จะเกิด Separation ว่าง กรุณาลดจำนวนสีพิมพ์หรือเตรียม Vector ใหม่'});
   if(active.some(v=>(Number(job.variants[v.id].qty)||0)<=0))issues.push({level:'warn',text:'สีด้ามที่เลือกบางสีมีจำนวน 0'});

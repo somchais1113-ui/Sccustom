@@ -1,136 +1,65 @@
-# SCCUSTOM — Smart Artwork Studio
+# SCCUSTOM — Smart Artwork Studio v1.1.0 (GitHub Pages)
 
-**Version:** 1.0.0 • Static GitHub Pages pilot • Thai/English UX
+**GitHub Pages-ready static website.** This is an upgrade of SCCUSTOM v1.0, retaining its existing design, brand-logo selector, 6-color mixed-pen variants, existing jobs, 1:1 SVG output and A4 proof layouts.
 
-Web-based Sales Artwork Workspace สำหรับงานสกรีนปากกา 1–3 สี โดยใช้ *Product Master + Guided Workflow* เพื่อช่วยให้ Sale สร้าง Customer Proof และส่งไฟล์เวกเตอร์ให้ทีม Prepress ตรวจได้เอง โดยยังต้องผ่านการยืนยันสเปกกับโรงงานก่อนผลิตจริง
+## What is new in v1.1
 
-## Quick start / เปิดใช้งาน
+- **Text Artwork:** in Step 3 switch from "อัปโหลดโลโก้" to "พิมพ์ข้อความ". Enter Thai/English text; choose a specimen font from Prompt, Kanit, Sarabun, IBM Plex Sans Thai, Mitr and Bai Jamjuree. Enter size with existing Fit and Offset controls.
+- **Optional Create Outlines:** for production, click **แปลงข้อความเป็น Vector Paths** and select a licensed **TTF/OTF file that you provide**. The browser fetches the pinned `fontkit@2.0.4` JS engine on demand and creates SVG `<path>` outlines. Exact shaping and Thai marks must be checked visually and approved in prepress. No fonts are included in this package or saved in the project.
+- **8 product brands:** Quantum, Elephant, Elfen, Uni, Mitsubishi, Master Art, Ultimatum, Artifact. The library includes **only the existing Quantum 341224 example**; other brands have empty catalog slots, not fabricated products or logos.
+- **Product Master Admin (local pilot):** add product model, nib, length, real print area, and upload multiple color-variant images. The app fits images into **1600×533 WebP previews** and assigns predictable names such as `qtm_341224_skyblue_side_web_v001.webp`. Data is saved in your browser. Export/Import product catalog as JSON.
+- **Optional Google Drive Sync:** in the Dashboard add a Google OAuth **Web Client ID** from your own Google Cloud project, connect your Google account, then Save / Find / Open jobs via Drive. Scope is `drive.file` and files are saved in folders under `SCCUSTOM_DATA/02_CUSTOMER_JOBS/<year>/<job-id>/`. Requires setup; no secrets in GitHub. See `docs/GOOGLE_DRIVE_SETUP.md`.
+- **JSON remains editable:** text content, font selection, product metadata, artwork outline paths, positions, mixed variants and revision are retained in project JSON. This enables reopening without preserving the font file.
 
-เว็บไซต์เป็น **Static HTML + CSS + JavaScript ES Modules** 100% ไม่มี `node_modules`, ไม่มี Build Step, ไม่มี API Key และไม่ต้องติดตั้ง Dependency
+## Quick deployment — replace existing GitHub Pages site
 
-**ทดสอบในเครื่อง**
+1. Back up important **jobs** first. In **งานของฉัน**, click the download icon beside each job to export Project JSON. Also back up any custom products via **คลังสินค้า / Admin → Export Product Catalog JSON**.
+2. Extract this ZIP and copy the **contents** (not the outer ZIP folder) into the root of your current GitHub repo. You can replace the existing `index.html`, `app.js`, etc. **Keep `.github/workflows/deploy.yml` and `.nojekyll`**.
+3. Commit to `main`, with **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+4. Wait for the green deploy check in **Actions** and hard-refresh the published page (Shift+Reload).
+5. The v1 browser save key is preserved (`sccustom-artwork-studio-v1`) so older jobs remain available **in the same browser and site origin**. Jobs on other browsers/devices must be imported from JSON or saved through Google Drive Sync.
 
-1. แตกไฟล์ ZIP
-2. เปิด Terminal ในโฟลเดอร์นี้ แล้วรัน:
+Local test: `python3 -m http.server 8000` from this folder and open `http://localhost:8000`. Do not double-click `index.html` (ES modules may fail under `file://`).
 
-   ```bash
-   python3 -m http.server 8000
-   ```
-3. เปิด <http://localhost:8000> (อย่าเปิด `index.html` ผ่าน `file://` เพราะ ES Modules อาจถูกบล็อก)
+## Important limitations
 
-**ลง GitHub Pages ด้วย GitHub Actions**
+1. This release remains a **pilot**, not a certified production RIP or prepress workflow. Files named "Production" are outputs for **supplier/prepress verification**. SVG is physical-size mm but RGB previews, **NOT native Pantone spot-color PDF**. Do not send to press without checking registration, min strokes, transparency, knockout, overprint and material/printing method.
+2. The on-demand font-outline tool requires an Internet connection to download the JS engine on its first use and a legitimate licensed TTF/OTF upload. Users can still use the app and export editable proof JSON offline once the website assets load. The actual imported font determines glyph outlines; the Dropdown font name is not a guarantee that a different uploaded font will match.
+3. When text changes, the old outline is invalidated and production export is blocked until conversion is run again. The original editable text is still stored. **Thai text and marks must be checked before production.** Raster images are **proof only**.
+4. Custom product images currently save only in **local browser storage** and in exported Product Catalog JSON. The Product Library admin is **not** a cloud product database and does not yet write catalog assets into Google Drive. Add a real database and admin access control before team-wide use.
+5. Google Drive Sync is optional and only runs once you configure OAuth on **your own Google Cloud project**. Each authorized user can access app-created Drive files permitted by their Google account. It does not provide central login, company role controls or automatic shared-team access. The `drive.file` scope is intentionally narrow.
+6. Brand header logo and product brand are **different**. Brand-header logos other than Quantum are currently text-based placeholders until approved official SVG/PNG files are supplied. Changing the header logo does not change the customer print artwork.
+7. User data stored in browser localStorage can be lost when clearing site data or switching computers. Save JSON backups and use a managed Drive workflow for real work.
+8. The image overlay position is visual-only and calibrated only approximately for the demo Quantum image; **validate each new product's print area** against actual product measurements before relying on the preview.
+9. Printing proof PDF uses browser Print / Save as PDF. Choose 100%, turn off Fit to Page and verify output dimensions. Production vector output uses standalone SVG.
 
-1. สร้าง GitHub Repository ใหม่ เช่น `sccustom-artwork-studio`
-2. อัปโหลด **ไฟล์และโฟลเดอร์ทั้งหมดที่อยู่ข้างในแพ็กเกจนี้ไปที่ Root ของ Repo** รวมถึง `.github/workflows/deploy.yml` และ `.nojekyll`
-3. ใช้ Branch ชื่อ `main`
-4. ไปที่ **Settings → Pages → Build and deployment → Source → GitHub Actions**
-5. `push` หรือ `commit` ลง `main` เพื่อเริ่ม Workflow ชื่อ `Deploy SCCUSTOM to GitHub Pages`
-6. เปิด URL ที่ GitHub Pages ให้ เช่น `https://<username>.github.io/sccustom-artwork-studio/`
-
-**ตัวอย่าง Git commands**
-
-```bash
-git init
-git add .
-git commit -m "Initial SCCUSTOM Artwork Studio"
-git branch -M main
-git remote add origin https://github.com/USERNAME/REPOSITORY.git
-git push -u origin main
-```
-
-> ไม่ต้องแก้ Base URL ในโค้ด: ไฟล์ใช้ path แบบ relative รองรับ Project Site ของ GitHub Pages
-
-## ฟีเจอร์ที่ทำงานได้ใน Pilot นี้
-
-| Module | ใช้งานจริงใน v1.0 |
-|---|---|
-| Dashboard | สร้างงาน, เปิดงานเก่า, ทำซ้ำ, ลบ, Export Project JSON, Import Project JSON |
-| Product Master | ตัวอย่าง Quantum รุ่น 341224 / 0.5 mm, ขนาด Print Area 28.3 × 4.5 mm |
-| 6 Colour Variants | เลือกสี, จำนวนต่อสี, จำนวนรวม, เลือกหมึกแบบใช้ร่วมกันหรือแยกตามสีด้าม |
-| 1–3 Ink Colours | ตั้งหมึก 1, 2 หรือ 3 สี พร้อมตรวจจำนวนสีใน SVG |
-| Artwork Editor | อัปโหลดไฟล์ SVG/PNG/JPEG/WEBP, Auto Fit, Scale, Offset X/Y, ลากโลโก้ภายใน Print Area |
-| Brand Logo Template | เปลี่ยน **เฉพาะโลโก้ส่วนหัวเอกสาร**, เลือกจากแบรนด์ตัวอย่างหรืออัปโหลด Brand Logo ได้ |
-| Template | Customer Proof A4 และ Production Specification A4 พร้อมข้อความเตือนทุกฉบับ |
-| Export SVG | หน่วย `mm` จริง; สร้าง Composite/Separation SVG ตามกลุ่มสีหมึก |
-| Export ZIP | รวมไฟล์ SVG ที่จัดกลุ่มหมึก, Manifest และคำเตือน Prepress ในไฟล์เดียว |
-| PDF | ใช้ Print / Save as PDF ผ่านระบบพิมพ์ของเบราว์เซอร์ |
-| Approval | รับทราบข้อควรระวัง, บันทึกสถานะ Sales-side Approval, ยกเลิกการอนุมัติและเพิ่ม Revision เมื่อแก้ Artwork |
-| Responsive | Desktop-first และหน้า Mobile ที่ใช้งานได้ตามข้อจำกัดของหน้าจอ |
-
-## ทดลองเส้นทาง Export เวกเตอร์
-
-ในโฟลเดอร์ `examples/` มี SVG ที่ถูกแปลงข้อความเป็น **Vector Outlines** แล้ว (ไฟล์ตัวอย่างสำหรับทดสอบฟีเจอร์ ไม่ใช่โลโก้แบรนด์จริง):
-
-- `sample-vector-1colour.svg`: ตั้ง Ink Count = 1
-- `sample-vector-2colour.svg`: ตั้ง Ink Count = 2
-- `sample-vector-3colour.svg`: ตั้ง Ink Count = 3
-
-ทดลอง: ไปขั้น **3. อัปโหลดและจัดวางโลโก้** → อัปโหลดไฟล์ → ปรับขนาดและตำแหน่ง → ขั้น **4. ตรวจสอบและส่งออก** → ทำเครื่องหมายรับทราบข้อควรระวัง + ยืนยันได้รับอนุมัติจากลูกค้า → ส่งออก Production SVG หรือ ZIP
-
-**สังเกต:** ไฟล์ `examples` เป็น Sample Vector สำหรับทดสอบ ไม่ใช่ไฟล์สั่งผลิตที่ได้รับอนุมัติ
-
-## แนวทางออกแบบ
-
-- **SCCUSTOM** เป็นชื่อแอปและโลโก้บน Top Bar ไม่ใช่ Brand ของสินค้า
-- **Template Brand Logo Selector** เปลี่ยนเฉพาะ Header ของเอกสาร Customer Proof และ Production Spec; ไม่เปลี่ยนภาพสินค้า โลโก้ที่จะสกรีน หรือค่ามิลลิเมตร
-- ภาพปากกาทั้ง 6 สีสร้างจากรูปอ้างอิงที่ผู้ใช้ให้มาเพื่อทดสอบ UX เท่านั้น **ยังไม่ใช่ภาพยืนยันของ 6 SKU จริง**
-- Product Master ใน Pilot มีเพียง Quantum รุ่น 341224 รุ่นเดียว ข้อมูล Brand/Model/Nib ปัจจุบันเป็นตัวเลือก 1 รายการ — การเพิ่มรุ่นสินค้าอื่นให้แก้ `data.js` และเพิ่มรูปใน `assets/`; การทำ Admin CRUD และฐานข้อมูลออนไลน์เป็นงาน Phase ถัดไป
-
-## Production Safety / สิ่งสำคัญก่อนใช้ผลิต
-
-1. รูป Product Preview ไม่ใช่หลักฐานยืนยันตำแหน่งสกรีนบนผิวโค้ง สินค้า ขนาด หรือเฉดสีจริง ต้องเทียบกับ Drawing และชิ้นงานโรงงาน
-2. **บนหน้าจอไม่ใช่ Actual 1:1** ถึง SVG จะมี `width="28.3mm" height="4.5mm"` แต่ระดับ Zoom และ Monitor DPI ต่างกัน
-3. SVG รูปผลิตไม่มีเส้น Guide หรือภาพสินค้า แต่ไฟล์ยังเป็นข้อมูล **RGB-based SVG** — `PANTONE` ที่แสดงเป็นเพียงรหัสอ้างอิงใน Manifest ไม่ใช่ *native spot colour separation* ในไฟล์ PDF
-4. ต้องให้ Prepress ตรวจการกำหนด Spot Colours, Minimum Stroke, Registration, Knockout/Overprint, Trapping, การตั้งบล็อก, ผิววัสดุ และการพิมพ์จริงก่อนสั่งผลิต
-5. ไฟล์ PNG/JPG อัปโหลดได้เพื่อทำ Proof แต่ **ระบบล็อก Production SVG** ถ้าไม่ได้อัปโหลดเป็น Vector SVG ที่รองรับ
-6. ไฟล์ SVG ที่มี `<text>`, `<defs>`, clipping, gradients, masks, embedded images, external references หรือ unsupported CSS ต้อง **Convert to Outlines / Expand Appearance / Flatten** ก่อนอัปโหลด
-7. เบราว์เซอร์จะเปิดหน้าต่างเอกสารสำหรับ PDF: กด **Print / Save as PDF** และเลือก **Scale 100%**, ไม่ใช้ `Fit to Page`, ปิด Header/Footer (ถ้ามี), จากนั้นตรวจขนาดไฟล์ PDF ด้วยเครื่องมือวัดที่เชื่อถือได้
-8. ช่อง "ลูกค้าอนุมัติ" ใน Pilot เป็นการลงสถานะโดย Sales **ไม่ใช่ลายเซ็นดิจิทัล** และไม่ได้ส่งอีเมลขออนุมัติเอง
-
-## Data / Privacy
-
-- ข้อมูลทั้งหมดเก็บใน `localStorage` ของเบราว์เซอร์ที่เปิดใช้เท่านั้น ไม่ซิงก์ข้ามเครื่องและไม่ถูกส่งไปเซิร์ฟเวอร์ของแอป
-- บันทึกงานโดยกด **บันทึกร่าง**; หากล้างข้อมูล Browser/Incognito อาจสูญหาย ควร Export Project JSON สำรอง
-- นำ Project JSON กลับเข้าระบบจาก Dashboard ด้วย Import Project; ระบบรีเซ็ตสถานะอนุมัติเพื่อป้องกันการใช้ Approval จากโปรเจกต์นำเข้าโดยไม่ตรวจซ้ำ
-- GitHub Pages ปกติไม่มีระบบ Login หรือ Role-based Access Control **อย่าใช้เป็นระบบเผยแพร่ข้อมูลลูกค้าลับหรือ Production Approval อย่างเป็นทางการก่อนพัฒนาระบบยืนยันตัวตนและฐานข้อมูล**
-- ข้อมูลลูกค้า/โลโก้ที่อัปโหลดจากเบราว์เซอร์ **ไม่ได้ถูกคอมมิตขึ้น GitHub อัตโนมัติ** แต่อย่านำ Project JSON ที่มีข้อมูลลูกค้าจริงไปวางใน Public Repo
-
-## File Structure
+## Folder structure
 
 ```text
-SCCUSTOM_Artwork_Studio_GitHub_Package/
-├── index.html             # Entry point
-├── styles.css             # Fully responsive UI
-├── app.js                 # UI / event handlers / state
-├── data.js                # Product Master / brands / inks / settings
-├── vector.js              # SVG sanitization / vector editor / actual mm export
-├── exporter.js            # Preflight / ZIP / A4 print layouts
-├── assets/                # Demo pen photos and Quantum header mark
-├── examples/              # 1, 2, 3-colour vector test logos
-├── tests/                 # Node built-in test runner
-├── package.json           # Test commands only, no dependencies
-├── favicon.svg
-├── .nojekyll
-└── .github/workflows/deploy.yml
+index.html             # GitHub Pages entry
+styles.css             # responsive SCCUSTOM UI
+app.js                 # editor, library and Drive controls
+data.js                # Product Masters, brands, settings, job schema
+vector.js              # safe SVG import, actual-mm SVG assembly
+text-outline.js        # on-demand client-side text outlines
+exporter.js            # proof/production print, vector and ZIP output
+drive-sync.js          # user-authorized Drive save/list/open
+assets/                # 6 demo product color images and Quantum sample logo
+product-library/       # upload standards, brand folders and examples
+docs/                  # operational guides
+examples/              # SVG input test artwork
+tests/                 # unit tests
+.github/workflows/     # deploy.yml
+.nojekyll              # disable Jekyll on GitHub Pages
 ```
 
-## Quality checks
+## Tests
 
 ```bash
 npm test
 npm run check
 ```
 
-Requires Node.js 18+ for `npm test`. **Running the website does not require Node.js.**
+Node 18+ only required for running tests. No build step or `npm install` needed to run the website. Browser font outlining uses a pinned external ESM dependency, not included fonts.
 
-## Next Phase (not implemented)
-
-- Login / Roles (Sales, Design, Production) + shared database and asset storage
-- Admin page to add product models, actual variants, approved logo assets and print-area calibration profiles
-- Real Pantone/Spot separation through verified production processing pipeline
-- Digital Customer Approval / signature / revision audit trail / actual quotation and production order integration
-- Factory-specific preflight thresholds (minimum line, screen print constraints, curved barrel geometry)
-
----
-
-**Implementation status:** Pilot website functionally implemented; requires real pen SKU verification and factory approval before production use.
+**Next required production work:** verified per-product print-area calibration, approved font-outline QA, native spot-color separation / PDF workflow, official logo assets for all brands, company-managed shared cloud storage and role-based controls.

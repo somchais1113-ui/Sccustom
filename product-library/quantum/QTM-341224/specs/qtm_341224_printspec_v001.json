@@ -1,0 +1,11 @@
+{
+  "productId": "QTM-341224",
+  "brand": "Quantum",
+  "model": "341224",
+  "printProcess": "Silkscreen",
+  "printArea": {"widthMm": 28.3, "heightMm": 4.5},
+  "penLengthMm": 140,
+  "specVersion": 1,
+  "factoryVerified": false,
+  "note": "Demo reference dimensions. Verify on real product before production."
+}

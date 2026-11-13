@@ -79,8 +79,12 @@ export function artworkSvg(job,variantId,layer=-1,opts={}){
   const {x,y,width,height}=position(job);
   const w=PRODUCT.printWidthMm,h=PRODUCT.printHeightMm;
   let content='';
-  if(job.logo.sourceType==='svg'){
+  if((job.logo.sourceType==='svg'||job.logo.sourceType==='text')&&job.logo.vector){
     content=`<svg x="${x}" y="${y}" width="${width}" height="${height}" viewBox="${escapeHtml(job.logo.viewBox)}" preserveAspectRatio="xMidYMid meet">${coloredMarkup(job,variantId,layer)}</svg>`;
+  }else if(job.logo.sourceType==='text' && job.textArtwork?.text){
+    const text=escapeHtml(job.textArtwork.text);
+    const font=escapeHtml(job.textArtwork.family||'sans-serif');
+    content=`<text x="${x+width/2}" y="${y+height*.80}" text-anchor="middle" font-size="${height*.75}" font-family="${font},sans-serif" font-weight="${+job.textArtwork.weight||700}" fill="${ink(variantInks(job,variantId)[0]).hex}">${text}</text>`;
   }else if(job.logo.data){
     content=`<image x="${x}" y="${y}" width="${width}" height="${height}" href="${escapeHtml(job.logo.data)}" preserveAspectRatio="xMidYMid meet"/>`;
   }else{
