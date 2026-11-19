@@ -1,3 +1,4 @@
+import {layoutFor} from './print-layout.js';
 // SCCUSTOM | Editable product master and default template branding.
 // All six colourway examples below are visual DEMOS, not verified factory SKUs.
 export const PRODUCT = {
@@ -47,20 +48,8 @@ export function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=
 export function ink(id){return INKS.find(i=>i.id===id)||INKS[0];}
 export function activeVariants(job){return PRODUCT.variants.filter(v=>job.variants?.[v.id]?.enabled);}
 export function variantInks(job,id){return (job.sameInk?job.sharedInks:job.variants[id].inks).slice(0,job.inkCount);}
-export function logoSize(job){
-  const ratio=Math.min(Math.max(Number(job.logo?.aspect)||4,0.05),100);
-  const scale=Math.max(0.1,Math.min(1,Number(job.fit)/100));
-  const maxW=PRODUCT.printWidthMm-0.25,maxH=PRODUCT.printHeightMm-0.25;
-  let w=maxW,h=w/ratio;
-  if(h>maxH){h=maxH;w=h*ratio;}
-  return {width:+(w*scale).toFixed(3),height:+(h*scale).toFixed(3)};
-}
-export function position(job){
-  const {width,height}=logoSize(job);
-  const x=Math.max(0,Math.min(PRODUCT.printWidthMm-width,(PRODUCT.printWidthMm-width)/2+Number(job.offsetX||0)));
-  const y=Math.max(0,Math.min(PRODUCT.printHeightMm-height,(PRODUCT.printHeightMm-height)/2+Number(job.offsetY||0)));
-  return {x:+x.toFixed(3),y:+y.toFixed(3),width,height};
-}
+export function logoSize(job){const {width,height}=position(job);return {width,height};}
+export function position(job){return layoutFor(job,PRODUCT);}
 export function safeFilename(value){return String(value||'artwork').replace(/[^a-zA-Z0-9._-]/g,'_').slice(0,75);}
 
 // Catalog is local to the browser until synchronized through a trusted API.
@@ -92,7 +81,7 @@ export function applyProductToJob(j,p){
   useProduct(p);j.productId=p.id;j.productSpec=structuredClone(p);
   j.variants=Object.fromEntries(p.variants.map(v=>[v.id,{enabled:true,qty:0,inks:['black','red','blue']} ]));
   j.selectedVariant=p.variants[0].id;j.customerApproved=false;j.approvedAt=null;j.ackNotes=false;
-  j.status='Draft';j.revision++;j.fit=94;j.offsetX=0;j.offsetY=0;
+  j.status='Draft';j.revision++;j.fit=94;j.offsetX=0;j.offsetY=0;j.printLocationId='barrel';j.gapMm=undefined;
 }
 export function proposedFilename(brandCode,model,variant,kind='side',type='web',version='v001',ext='webp'){
   const scrub=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');

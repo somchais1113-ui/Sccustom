@@ -1,8 +1,29 @@
-# SCCUSTOM — Smart Artwork Studio v1.1.1 (GitHub Pages)
+# SCCUSTOM — Smart Artwork Studio v1.1.4 (GitHub Pages)
 
 **GitHub Pages-ready static website.** This is an upgrade of SCCUSTOM v1.0, retaining its existing design, brand-logo selector, 6-color mixed-pen variants, existing jobs, 1:1 SVG output and A4 proof layouts.
 
-## v1.1.1 — โลโก้หัวเอกสารตั้งจากไฟล์กลาง
+## v1.1.4 — Print Studio
+
+- ขั้นที่ 3 แยกตั้งค่างาน ภาพปากกา และเครื่องมือปรับแบบออกจากกัน บนจอแคบให้ดูภาพก่อน แล้วค่อยเข้าถึงเครื่องมือด้านล่าง
+- สลับ **ดูบนด้าม / ขยายพื้นที่พิมพ์** ได้โดยไม่เปลี่ยนแบบ ปรับสีที่แสดงในภาพได้จากสีที่เลือกไว้ในงาน
+- แถบล่างแยกสถานะการจัดวางจากสถานะส่งออกไฟล์ผลิต เหตุผลที่ติดมีทางลัดไปยังส่วนที่เกี่ยวข้อง ปุ่มหลัก **ตรวจแบบก่อนส่ง** ไปยังขั้นที่ 4
+- เก็บไฟล์ `config/brand-logos.js`, `config/print-profiles.js` และไฟล์โลโก้ที่ตั้งไว้เดิม ไม่ต้องใช้ไฟล์ตัวอย่างใน ZIP ทับ ค่าโปรไฟล์เดิมและฟอร์แมตงานไม่เปลี่ยน
+- ดู [คู่มือหน้า Print Studio](docs/PRINT_STUDIO.md)
+
+## v1.1.3 — จัดแบบผลิตด้วยกรอบปลอดภัย
+
+- ขั้นที่ 3 เลือกโลโก้ ข้อความ หรือทั้งสองอย่าง ปรับขนาดโดยล็อกสัดส่วน จัดกึ่งกลาง กรอกตำแหน่ง ระยะห่าง และความสูงข้อความเทียบโลโก้ได้
+- ทีม Design ตั้งกรอบและระยะเผื่อรายด้านที่ `config/print-profiles.js` ค่า Quantum ที่มากับแพ็กเกจเป็นตัวอย่าง ยังส่งออก Production SVG/ZIP ไม่ได้จนกว่าจะใส่และยืนยันสเปกจริง
+- มี ZIP สำหรับส่งให้ Design ตรวจรายละเอียด พร้อมไฟล์โปรเจกต์แก้ต่อได้ ไม่แก้เส้นภายในโลโก้อัตโนมัติ
+- อ่าน [วิธีตั้งโปรไฟล์และใช้งาน](docs/PRODUCTION_LAYOUT_SETUP.md) ก่อนอัปเดต โดยเก็บไฟล์โลโก้แบรนด์และค่าที่ตั้งไว้เดิม
+
+## v1.1.2 — ดรอปดาวน์แบรนด์และข้อความอ่านง่าย
+
+- เลือกแบรนด์จากดรอปดาวน์เดียว โลโก้และชื่อแบรนด์ที่เลือกแสดงอยู่ด้านบน และใช้รูปเดียวกันในตัวอย่างเอกสารและไฟล์ PDF
+- ข้อความหน้าจอปรับให้ปุ่มและข้อมูลสำคัญอ่านง่ายขึ้น โดยใช้ขนาดหลัก 16 px และข้อความรองอย่างน้อย 14 px ที่การตั้งค่าเริ่มต้นของเบราว์เซอร์
+- หากตั้งโลโก้จริงในเวอร์ชันก่อนแล้ว ให้เก็บไฟล์โลโก้ใน `assets/brand-logos/` และ **ใช้ `config/brand-logos.js` ฉบับที่ตั้งค่าไว้ต่อ** อย่าใช้ไฟล์ตัวอย่างจาก ZIP ทับค่าที่ใช้งานจริง
+
+## ตั้งค่าโลโก้หัวเอกสารจากไฟล์กลาง
 
 - ผู้ดูแลวาง SVG, PNG หรือ WebP ใน `assets/brand-logos/` และใส่พาธใน `config/brand-logos.js` แล้ว commit ขึ้น GitHub
 - Sale เลือกได้เฉพาะโลโก้ที่ตั้งค่าและโหลดได้จริง ไม่มีปุ่มอัปโหลดโลโก้หัวเอกสารรายงาน
@@ -13,7 +34,7 @@
 ## What was added in v1.1
 
 - **Text Artwork:** in Step 3 switch from "อัปโหลดโลโก้" to "พิมพ์ข้อความ". Enter Thai/English text; choose a specimen font from Prompt, Kanit, Sarabun, IBM Plex Sans Thai, Mitr and Bai Jamjuree. Enter size with existing Fit and Offset controls.
-- **Optional Create Outlines:** for production, click **แปลงข้อความเป็น Vector Paths** and select a licensed **TTF/OTF file that you provide**. The browser fetches the pinned `fontkit@2.0.4` JS engine on demand and creates SVG `<path>` outlines. Exact shaping and Thai marks must be checked visually and approved in prepress. No fonts are included in this package or saved in the project.
+- **Optional Create Outlines:** for production, click **แปลงข้อความเป็นเส้นเวกเตอร์** and select a licensed **TTF/OTF file that you provide**. The browser fetches the pinned `fontkit@2.0.4` JS engine on demand and creates SVG `<path>` outlines. Exact shaping and Thai marks must be checked visually and approved in prepress. No fonts are included in this package or saved in the project.
 - **8 product brands:** Quantum, Elephant, Elfen, Uni, Mitsubishi, Master Art, Ultimatum, Artifact. The library includes **only the existing Quantum 341224 example**; other brands have empty catalog slots, not fabricated products or logos.
 - **Product Master Admin (local pilot):** add product model, nib, length, real print area, and upload multiple color-variant images. The app fits images into **1600×533 WebP previews** and assigns predictable names such as `qtm_341224_skyblue_side_web_v001.webp`. Data is saved in your browser. Export/Import product catalog as JSON.
 - **Optional Google Drive Sync:** in the Dashboard add a Google OAuth **Web Client ID** from your own Google Cloud project, connect your Google account, then Save / Find / Open jobs via Drive. Scope is `drive.file` and files are saved in folders under `SCCUSTOM_DATA/02_CUSTOMER_JOBS/<year>/<job-id>/`. Requires setup; no secrets in GitHub. See `docs/GOOGLE_DRIVE_SETUP.md`.

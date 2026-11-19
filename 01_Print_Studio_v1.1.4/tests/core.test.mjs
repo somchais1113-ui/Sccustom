@@ -26,11 +26,12 @@ test('SVG physical width/height use mm, not screen pixels',()=>{
   assert.match(s,/width="28\.3mm"/);assert.match(s,/height="4\.5mm"/);
   assert.doesNotMatch(s,/pen-sky/);
 });
-test('production locked until approved, acknowledged and vector supplied',()=>{
+test('demo profile blocks production even with approved vector artwork',()=>{
   const j=newJob();assert.equal(canExportProduction(j),false);
   j.logo={sourceType:'svg',name:'test.svg',vector:true,viewBox:'0 0 100 20',aspect:5,palette:['#000000'],markup:'<rect x="0" y="0" width="100" height="20" fill="#000000" stroke="none"></rect>'};
   j.customerApproved=true;j.ackNotes=true;
-  assert.equal(canExportProduction(j),true);
+  assert.equal(canExportProduction(j),false);
+  assert.ok(preflight(j).some(x=>x.level==='block'&&x.text.includes('ยืนยันสเปก')));
   j.inkCount=3;
   assert.ok(preflight(j).some(x=>x.level==='warn'));
 });

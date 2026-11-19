@@ -1,0 +1,120 @@
+/* Scoped to the Print Studio (step 3). Other stages keep their existing UI. */
+.studio-shell{
+  --studio-ink:#102c47;--studio-muted:#536982;--studio-border:#d9e3ef;
+  --studio-line:#e7edf4;--studio-blue:#135b9b;--studio-soft:#eaf3ff;
+  color:var(--studio-ink);max-width:1680px;margin-inline:auto;padding:26px clamp(14px,2.5vw,38px) 0
+}
+.studio-identity{display:flex;justify-content:space-between;align-items:end;gap:22px;margin-bottom:20px}
+.studio-kicker{font-size:.875rem;font-weight:800;letter-spacing:.095em;color:var(--studio-muted)}
+.studio-identity h1{margin:3px 0 5px;font-size:clamp(1.7rem,3.2vw,2.45rem);line-height:1.2;letter-spacing:-.025em}
+.studio-identity p,.studio-preview-header p{margin:0;color:var(--studio-muted);overflow-wrap:anywhere}
+.studio-identity-main{min-width:0}
+.studio-identity-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;flex-shrink:0}
+.studio-brand-tag,.studio-save{display:flex;gap:10px;align-items:center;min-height:56px}
+.studio-brand-tag{border:1px solid var(--studio-border);border-radius:10px;padding:7px 12px;background:#fff;font-size:.875rem;color:var(--studio-muted)}
+.studio-brand-tag img{max-width:76px;max-height:34px;object-fit:contain}
+.studio-brand-tag small,.studio-brand-tag strong{display:block}
+.studio-brand-tag strong{font-size:1rem;color:var(--studio-ink)}
+.studio-save-state{font-size:.875rem;color:var(--studio-muted)}
+.studio-identity .outline-btn{padding-inline:11px}
+.studio-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:#fff;border:1px solid var(--studio-border);padding:5px;gap:4px;border-radius:12px;margin-bottom:18px}
+.studio-steps button{border:0;border-radius:8px;background:transparent;color:#355471;padding:8px;min-height:44px;display:flex;gap:9px;align-items:center;justify-content:center;font-weight:700;text-align:left}
+.studio-steps button:hover{background:#f1f6fc}
+.studio-steps button[aria-current]{background:#e9f2ff;color:#154d82}
+.studio-steps button span{display:grid;place-items:center;min-width:24px;height:24px;border:1px solid #c8d6e5;border-radius:50%;font-size:.875rem;flex-shrink:0}
+.studio-steps button[aria-current] span{background:#184c7a;border-color:#184c7a;color:#fff}
+.studio-workspace{display:grid;grid-template-columns:minmax(228px,1fr) minmax(0,2.5fr) minmax(288px,1.3fr);grid-template-areas:"setup preview inspector";gap:16px;align-items:start}
+.studio-workspace>.panel{min-width:0;border:1px solid var(--studio-border);border-radius:14px;box-shadow:0 1px 2px #1835570d;padding:17px}
+.studio-workspace h2{font-size:1.22rem;margin:0;line-height:1.4}
+.studio-workspace h3{font-size:1rem;margin:0 0 8px;letter-spacing:0}
+.studio-setup{grid-area:setup}
+.studio-preview{grid-area:preview}
+.studio-inspector{grid-area:inspector}
+.studio-segment{border-top:1px solid var(--studio-line);padding-top:14px;margin-top:14px;min-width:0}
+.studio-field-heading{display:flex;justify-content:space-between;align-items:baseline;gap:5px;flex-wrap:wrap}
+.studio-field-heading button,.studio-status-link{min-height:34px;text-decoration:underline;text-underline-offset:.15em;text-align:left;font-size:.875rem}
+.studio-workspace .small-footnote{margin:7px 0 0;line-height:1.45;overflow-wrap:anywhere}
+.studio-swatches{display:flex;gap:5px;flex-wrap:wrap}
+.studio-swatches button{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--studio-border);border-radius:9px;background:#fff}
+.studio-swatches button[aria-pressed="true"]{border:2px solid #18629f;background:#edf6ff}
+.studio-swatches .swatch{width:21px;height:21px;border-radius:6px;border:1px solid #102c4740}
+.studio-setup .compose-modes{margin:0;grid-template-columns:1fr 1fr}
+.studio-setup .compose-modes button:last-child{grid-column:1/-1}
+.studio-setup .brand-settings{margin-top:14px;padding:14px 0 0;border:0;border-top:1px solid var(--studio-line);border-radius:0}
+.studio-preview-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.studio-preview-header p{font-size:.875rem;margin-top:4px}
+.studio-preview-toggle{display:flex;gap:3px;padding:3px;border-radius:10px;background:#eaf0f7;min-width:0;max-width:100%}
+.studio-preview-toggle button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:6px 10px;border:0;border-radius:8px;background:transparent;color:#365674;font-weight:700;text-align:left}
+.studio-preview-toggle button svg{flex-shrink:0}
+.studio-preview-toggle button[aria-pressed="true"]{background:#fff;color:#102f4d;box-shadow:0 1px 3px #102c4721}
+.studio-canvas{min-height:300px;border:1px solid var(--studio-border);border-radius:11px;display:grid;grid-template-rows:auto 1fr;min-width:0;background:#f1f5fb;padding:14px}
+.studio-canvas-product{background:linear-gradient(145deg,#f6f9fd,#edf3fa);box-shadow:inset 0 0 40px #e1eaf336}
+.studio-canvas-cap{display:flex;justify-content:space-between;gap:10px;font-size:.875rem;color:#345574}
+.studio-canvas-cap span{border:1px solid #dce6f1;border-radius:6px;padding:3px 8px;background:#ffffffcc}
+.studio-canvas .studio-pen{align-self:center;border:0;margin:0;background:transparent;padding:16px 4px 46px;min-width:0}
+.studio-canvas .pen-preview{max-width:1040px;margin:auto}
+.studio-canvas-area{grid-template-rows:1fr;align-items:center;background:#f7faff}
+.studio-canvas-area .actual-art-card{background:#fff;padding:14px}
+.studio-canvas-area .artboard-frame{max-width:100%}
+.studio-preview-caption{font-size:.875rem;color:var(--studio-muted);margin-top:12px;min-height:2.8em}
+.studio-inspector .text-editor{margin-bottom:0}
+.studio-inspector .studio-upload{justify-content:center;border-style:dashed;padding-inline:8px}
+.studio-inspector .compose-controls{margin:0;padding:0;border:0}
+.studio-inspector .compose-controls .primary-btn,.studio-inspector .compose-controls .outline-btn{margin-top:10px}
+.studio-inspector .two-inputs{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 10px}
+.studio-inspector .text-editor .two-inputs{margin-top:0}
+.studio-disclosure{border:1px solid var(--studio-border);border-radius:9px;margin-top:10px;background:#fafcff}
+.studio-disclosure summary{cursor:pointer;color:#244d71;font-size:.9375rem;font-weight:750;padding:11px 10px;min-height:44px}
+.studio-disclosure[open] summary{border-bottom:1px solid var(--studio-line)}
+.studio-details-body{padding:11px 10px}
+.studio-details-body .frame-summary,.studio-details-body .design-review{margin:0}
+.studio-gap{margin-top:12px}
+.studio-live-number{font-variant-numeric:tabular-nums;color:#124b7a}
+.studio-actionbar{
+  position:sticky;bottom:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:12px 14px max(12px,env(safe-area-inset-bottom));margin-top:18px;background:#fff;
+  border:1px solid var(--studio-border);border-radius:12px 12px 0 0;box-shadow:0 -5px 22px #1530520b
+}
+.studio-status{display:flex;flex-wrap:wrap;align-items:center;gap:9px 22px;min-width:0}
+.studio-status-item{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.studio-status-label{font-size:.875rem;font-weight:800;color:#355471}
+.studio-flag{font-size:.875rem;font-weight:750;line-height:1.55;padding:3px 8px;border-radius:7px}
+.studio-flag.is-ok{color:#125c3f;background:#e5f5ee}
+.studio-flag.is-hold{color:#714813;background:#fff1d5}
+.studio-flag.is-muted{color:#435873;background:#eef3f8}
+.studio-shell button:focus-visible,.studio-shell select:focus-visible,.studio-shell summary:focus-visible{outline:2px solid #146db5;outline-offset:2px}
+#app:has(.studio-shell) .toast{bottom:max(108px,calc(env(safe-area-inset-bottom) + 98px))}
+@media(max-width:1160px){
+  .studio-workspace{grid-template-columns:minmax(210px,.85fr) minmax(0,2fr);grid-template-areas:"setup preview" "setup inspector"}
+  .studio-identity{align-items:start}
+  .studio-identity-meta{max-width:48%;justify-content:end}
+}
+@media(max-width:760px){
+  .studio-shell{padding-top:17px}
+  .studio-identity{display:grid;gap:10px;margin-bottom:12px}
+  .studio-identity-meta{max-width:none;justify-content:space-between;gap:7px}
+  .studio-brand-tag,.studio-save{min-height:44px}
+  .studio-steps{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:12px}
+  .studio-steps button{justify-content:flex-start}
+  .studio-workspace{grid-template-columns:minmax(0,1fr);grid-template-areas:"preview" "setup" "inspector";gap:10px}
+  .studio-workspace>.panel{padding:13px}
+  .studio-canvas{min-height:190px;padding:10px}
+  .studio-canvas .studio-pen{padding:12px 0 34px}
+  .studio-preview-toggle{width:100%}
+  .studio-preview-toggle button{flex:1;padding-inline:5px}
+  .studio-setup .compose-modes{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .studio-setup .compose-modes button:last-child{grid-column:auto}
+  .studio-actionbar{display:grid;gap:7px;padding:9px 10px max(9px,env(safe-area-inset-bottom))}
+  .studio-actionbar>.primary-btn{width:100%}
+  .studio-status{gap:2px 8px}
+  .studio-status-link{min-height:28px}
+  #app:has(.studio-shell) .toast{bottom:max(174px,calc(env(safe-area-inset-bottom) + 163px))}
+}
+@media(max-width:365px){
+  .studio-identity-meta{display:grid}
+  .studio-save{justify-content:space-between}
+  .studio-setup .compose-modes{grid-template-columns:1fr 1fr}
+  .studio-setup .compose-modes button:last-child{grid-column:1/-1}
+}
+/* Render sidebar links and disclosures without jumping under the existing topbar. */
+.studio-shell [tabindex="-1"],.studio-disclosure{scroll-margin-top:108px}

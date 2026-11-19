@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base target="_top">
+<style>
+:root{color-scheme:light;font:16px/1.6 system-ui,Tahoma,sans-serif;background:#f1f5fa;color:#102c47}
+*{box-sizing:border-box} body{margin:0} button,input,textarea,select{font:inherit}
+header{background:#102c47;color:#fff;padding:17px clamp(16px,5vw,56px)}
+header b{letter-spacing:.1em} header span{color:#d2e5ff;margin-left:14px}
+main{max-width:1200px;margin:auto;padding:26px clamp(14px,3vw,32px) 52px}
+h1,h2,h3,p{margin:0} h1{font-size:clamp(1.65rem,5vw,2.5rem);line-height:1.3}h2{font-size:1.2rem}h3{font-size:1rem}
+small,.muted{color:#48647d;font-size:.9rem} .hero{display:flex;justify-content:space-between;align-items:start;gap:16px;flex-wrap:wrap}
+#who{background:white;border:1px solid #ccd9e7;border-radius:10px;padding:6px 12px;overflow-wrap:anywhere}
+.card{background:#fff;border:1px solid #d2dfec;border-radius:14px;padding:clamp(14px,3vw,22px);margin:16px 0}
+summary{font-weight:750;cursor:pointer;min-height:40px} details[open] summary{margin-bottom:12px}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px} label{display:grid;gap:4px;font-weight:650;min-width:0}
+.full{grid-column:1/-1}
+button,input,textarea,select{border:1px solid #9fb4cb;border-radius:8px;padding:8px 11px;background:#fff;color:#102c47;min-height:44px}
+button{cursor:pointer;font-weight:680}
+button.primary{background:#143c65;color:#fff;border-color:#143c65}
+button[disabled]{cursor:default;opacity:.62} a{color:#174f83;text-underline-offset:3px}
+:focus-visible{outline:3px solid #2478c3;outline-offset:2px}
+.warning,.success{display:block;padding:8px 12px;background:#fff0d8;border-radius:8px;color:#684413;margin-top:12px;overflow-wrap:anywhere}
+.success{background:#e7f5ed;color:#165a3e}
+.notice{margin-top:10px}
+.queue-title,.toolbar,.pager,.row-body,.row-head,.row-actions{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.toolbar{justify-content:flex-start;margin:12px 0}.toolbar input{min-width:min(100%,280px);flex:1}
+.rows{display:grid;gap:10px;margin:12px 0}
+.row{border:1px solid #dce6f1;border-radius:10px;padding:13px;overflow-wrap:anywhere}
+.row-title{flex:1 1 145px}.row-body{margin-top:5px}.row-actions{justify-content:flex-start;margin-top:10px}.nowrap{white-space:nowrap}
+.badge{font-size:.88rem;font-weight:720;border-radius:7px;padding:4px 8px;color:#603f12;background:#fff0d6}
+.badge.APPROVED{color:#16573e;background:#e5f5ec}.badge.CHANGES{color:#8b3232;background:#fbe9e9}.badge.older{color:#49617b;background:#eaf0f6}
+#history-head{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.decision{display:grid;grid-template-columns:1fr;gap:9px;background:#f2f6fc;border-radius:9px;padding:13px;margin-top:12px}
+.empty{padding:18px;border:1px dashed #cbd9eb;border-radius:8px;color:#49647e}
+[hidden]{display:none!important}
+@media(max-width:580px){form{grid-template-columns:minmax(0,1fr)} .toolbar button,.toolbar select{flex:1}}
+</style>
+</head>
+<body>
+<header><b>SCCUSTOM</b><span>คิวตรวจแบบ</span></header>
+<main>
+  <div class="hero"><div><h1>คิวตรวจแบบพิมพ์</h1><p class="muted">ติดตามผลตรวจของไฟล์แต่ละ Revision</p></div><div id="who" hidden></div></div>
+  <p class="notice muted">Design ตรวจผ่านหมายถึงผ่านการตรวจแบบเท่านั้น ไม่ใช่ลูกค้าอนุมัติหรืออนุญาตให้ส่งผลิต</p>
+  <div id="message" role="status" aria-live="polite" class="warning" hidden></div>
+  <details id="submit-box" class="card" hidden>
+    <summary>ส่งแบบเข้า Design</summary>
+    <form id="submit-form">
+      <label>เลขงานจาก SCCUSTOM<input name="jobCode" required maxlength="64" placeholder="ART-2026-001000"></label>
+      <label>รุ่นปากกา<input name="product" required maxlength="120" placeholder="Quantum 341224"></label>
+      <label class="full">ลิงก์ ZIP ในโฟลเดอร์รับงาน<input name="link" type="url" required maxlength="350" placeholder="https://drive.google.com/file/d/…/view"></label>
+      <label>Rev. ใน Print Studio (ถ้ามี)<input name="studioRev" maxlength="30" placeholder="เช่น 02"></label>
+      <label class="full">หมายเหตุถึง Design<textarea name="note" rows="2" maxlength="800" placeholder="เช่น ตรวจตำแหน่งโลโก้ที่คลิป"></textarea></label>
+      <p class="full muted">อัปโหลด ZIP จาก Print Studio เป็นไฟล์ใหม่ในโฟลเดอร์รับงาน แล้ววางลิงก์ที่นี่ ระบบออกเลข Revision ในคิวให้อัตโนมัติ</p>
+      <button id="submit-button" class="primary">บันทึกและส่งตรวจ</button>
+    </form>
+  </details>
+  <section class="card" id="queue" hidden aria-labelledby="queue-label">
+    <div class="queue-title"><h2 id="queue-label">งานล่าสุด</h2><span class="muted" id="count"></span></div>
+    <form class="toolbar" id="filters">
+      <input id="query" aria-label="ค้นหาเลขงาน รุ่น หรือผู้ส่ง" placeholder="ค้นหาเลขงาน / รุ่น / ผู้ส่ง" maxlength="120">
+      <select id="state" aria-label="สถานะล่าสุด"><option value="">ทุกสถานะ</option><option value="PENDING">รอตรวจ</option><option value="CHANGES">ส่งกลับแก้</option><option value="APPROVED">Design ตรวจผ่าน</option></select>
+      <button>ค้นหา</button>
+    </form>
+    <div id="rows" class="rows" aria-live="polite"></div>
+    <div class="pager"><button type="button" id="prev">ก่อนหน้า</button><span id="page" class="muted"></span><button type="button" id="next">ถัดไป</button></div>
+  </section>
+  <section class="card" id="history" hidden aria-labelledby="history-title">
+    <div id="history-head"><h2 id="history-title" tabindex="-1">ประวัติ Revision</h2><button id="close-history" type="button">ปิดประวัติ</button></div>
+    <div id="history-rows" class="rows"></div>
+  </section>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const statusText={PENDING:'รอตรวจ',CHANGES:'ส่งกลับแก้',APPROVED:'Design ตรวจผ่าน'};
+const dateFmt=new Intl.DateTimeFormat('th-TH-u-ca-gregory',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Bangkok'});
+const rev=n=>'Rev.'+String(n).padStart(2,'0');
+const ui={page:1,pages:1,actor:null,queueSeq:0,historySeq:0,historyTrigger:null};
+function el(tag,text='',className=''){
+  const n=document.createElement(tag);n.textContent=text;if(className)n.className=className;return n;
+}
+function message(value,kind='warning'){
+  const n=$('message');n.hidden=!value;n.textContent=value||'';n.className=kind;
+}
+function rpc(name,value){
+  return new Promise((resolve,reject)=>google.script.run
+    .withFailureHandler(()=>reject(new Error('เชื่อมต่อไม่สำเร็จ กรุณาลองโหลดคิวอีกครั้ง')))
+    .withSuccessHandler(response=>{
+      if(response?.ok)resolve(response.data);else reject(new Error(response?.message||'ไม่สามารถทำรายการได้'));
+    })[name](value));
+}
+function date(s){const n=new Date(s);return Number.isNaN(n.valueOf())?'—':dateFmt.format(n);}
+function rowView(row,historyMode=false){
+  const node=el('article','','row'),head=el('div','','row-head'),title=el('div','','row-title');
+  title.append(el('h3',row.jobCode+' · '+rev(row.rev)),el('p',row.product+(row.studioRev?' · Studio Rev. '+row.studioRev:''),'muted'));
+  head.append(title,el('span',row.state==='PENDING'&&historyMode&&!row.latest?'มีฉบับใหม่':statusText[row.state]||row.state,
+    'badge '+(historyMode&&!row.latest?'older':row.state)));
+  node.append(head,el('p','ส่งโดย '+row.owner+' · '+date(row.submittedAt),'muted'));
+  if(row.reviewer)node.append(el('p','ผู้ตรวจ '+row.reviewer+' · '+date(row.reviewedAt),'muted'));
+  if(!historyMode){
+    const link=el('button','ดูประวัติ Revision');link.type='button';
+    link.addEventListener('click',()=>{ui.historyTrigger=link;openHistory(row.queueId,true);});
+    const actions=el('div','','row-actions');actions.append(link);node.append(actions);return node;
+  }
+  if(row.note)node.append(el('p','หมายเหตุจาก Sale '+row.note));
+  if(row.resultNote)node.append(el('p','ผลตรวจ '+row.resultNote));
+  const actions=el('div','','row-actions');
+  if(row.fileUrl){
+    const link=el('a','เปิด ZIP ฉบับตรวจ');link.href=row.fileUrl;link.target='_blank';link.rel='noopener noreferrer';
+    actions.append(link);
+  }
+  actions.append(el('small',row.fileName||''));node.append(actions);
+  if(ui.actor?.design&&row.latest&&row.state==='PENDING')node.append(decisionForm(row));
+  return node;
+}
+function decisionForm(row){
+  const form=el('form','','decision');const l1=el('label','ผลตรวจ'),l2=el('label','หมายเหตุจาก Design');
+  const select=el('select');select.required=true;
+  for(const [v,t] of [['','เลือกผลตรวจ'],['CHANGES','ส่งกลับแก้'],['APPROVED','Design ตรวจผ่าน']]){const op=el('option',t);op.value=v;select.append(op);}
+  const note=el('textarea');note.maxLength=800;note.rows=2;note.placeholder='ถ้าส่งกลับแก้ ให้ระบุจุดที่ต้องแก้';
+  select.addEventListener('change',()=>{note.required=select.value==='CHANGES';});
+  l1.append(select);l2.append(note);const button=el('button','บันทึกผลสำหรับ '+rev(row.rev),'primary');form.append(l1,l2,button);
+  const inline=el('p','','warning');inline.setAttribute('aria-live','polite');inline.hidden=true;form.append(inline);
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();button.disabled=true;inline.hidden=true;
+    try{
+      await rpc('recordDecision',{submissionId:row.submissionId,decision:select.value,note:note.value});
+      message('บันทึกผลตรวจ '+rev(row.rev)+' แล้ว','success');
+      await refresh(false);await openHistory(row.queueId,false);
+    }catch(err){inline.textContent=err.message;inline.hidden=false;}finally{button.disabled=false;}
+  });return form;
+}
+async function refresh(clear=true){
+  if(clear)message('');
+  const seq=++ui.queueSeq;
+  try{
+    const r=await rpc('getQueue',{text:$('query').value,state:$('state').value,page:ui.page});
+    if(seq!==ui.queueSeq)return;
+    ui.actor=r.actor;ui.page=r.page;ui.pages=r.pages;
+    $('who').textContent=r.actor.email+' · '+[r.actor.sales?'Sale':'',r.actor.design?'Design':''].filter(Boolean).join(' / ');
+    $('who').hidden=false;$('queue').hidden=false;$('submit-box').hidden=!r.actor.sales;
+    $('count').textContent=r.count+' งาน';
+    $('rows').replaceChildren(...(r.rows.length?r.rows.map(x=>rowView(x)):[el('p','ไม่พบงานในคิวตามตัวกรองนี้','empty')]));
+    $('page').textContent='หน้า '+r.page+' / '+r.pages;
+    $('prev').disabled=r.page<=1;$('next').disabled=r.page>=r.pages;
+  }catch(err){if(seq===ui.queueSeq)message(err.message);}
+}
+async function openHistory(id,focus){
+  const seq=++ui.historySeq;
+  $('history').hidden=false;
+  $('history-title').textContent='ประวัติ Revision';
+  $('history-rows').replaceChildren(el('p','กำลังโหลดประวัติ…','muted'));
+  try{
+    const data=await rpc('getHistory',id);if(seq!==ui.historySeq)return;
+    $('history-title').textContent='ประวัติ '+(data[0]?.jobCode||'Revision');
+    $('history-rows').replaceChildren(...data.map(x=>rowView(x,true)));
+    if(focus)$('history-title').focus();
+  }catch(err){if(seq===ui.historySeq)$('history-rows').replaceChildren(el('p',err.message,'warning'));}
+}
+$('close-history').addEventListener('click',()=>{
+  ui.historySeq++;$('history').hidden=true;
+  (ui.historyTrigger?.isConnected?ui.historyTrigger:$('query')).focus();
+});
+$('filters').addEventListener('submit',e=>{e.preventDefault();ui.page=1;refresh();});
+$('prev').addEventListener('click',()=>{if(ui.page>1){ui.page--;refresh();}});
+$('next').addEventListener('click',()=>{if(ui.page<ui.pages){ui.page++;refresh();}});
+$('submit-form').addEventListener('submit',async e=>{
+  e.preventDefault();const button=$('submit-button');button.disabled=true;message('');
+  const data=Object.fromEntries(new FormData(e.currentTarget));
+  try{
+    const r=await rpc('submitRevision',data);
+    $('submit-form').reset();$('submit-box').open=false;
+    $('query').value='';$('state').value='';ui.page=1;
+    message((r.duplicate?'ไฟล์นี้เคยส่งแล้วที่ ':'ส่งตรวจแล้วที่ ')+r.row.jobCode+' · '+rev(r.row.rev),'success');
+    await refresh(false);await openHistory(r.row.queueId,true);
+  }catch(err){message(err.message);$('message').scrollIntoView({block:'nearest'});}
+  finally{button.disabled=false;}
+});
+if(window.google?.script?.run)refresh();
+else message('เปิดหน้านี้ผ่านลิงก์ Web App ของ Google Apps Script เพื่อใช้งานคิวตรวจ');
+</script>
+</body>
+</html>

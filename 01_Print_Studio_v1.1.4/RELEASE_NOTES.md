@@ -1,4 +1,26 @@
-# SCCUSTOM v1.1.1 — Release notes
+# SCCUSTOM v1.1.4 — Release notes
+
+- Step 3 has a focused Print Studio layout with job context, product-first preview, setup, inspector and a single primary review action.
+- Preview switches between pen mockup and measured safe-area view. Swatches focus an existing ordered variant without changing the ordered set.
+- Placement status and production export readiness are displayed independently. Blockers link to the relevant controls.
+- Existing projects, branding, print profiles, proofs, production exports and other stages are retained.
+
+## v1.1.3 — Previous release
+
+- Added Design-owned production profiles by product, method and print location with asymmetric safe margins.
+- The editor supports logo, text, or a horizontal logo/text pair. It maintains aspect ratio and provides controlled position, gap and relative text height.
+- Tracking is applied to generated outlines only when the font run can preserve character groups.
+- Added a manual Design-review ZIP and pending status. Production SVG/ZIP is gated by a verified profile, current artwork approval and applicable preflight checks.
+- Brand dropdown, existing job format and saved brand configuration remain compatible. New guides do not appear in production exports.
+
+## v1.1.2 — Previous release
+
+- Replaced the vertical brand list with a native dropdown and current-brand image/name above it.
+- The dropdown updates the document preview and both PDF headers without changing the selected product or print artwork.
+- Improved on-screen typography, secondary-text contrast, wrapping and narrow-screen layout. Physical print dimensions and A4 layout are unchanged.
+- Managed logo configuration and saved jobs remain compatible with v1.1.1. Preserve your existing configured file and brand assets when updating the site.
+
+## v1.1.1 — Previous release
 
 - Template header logos now come only from the version-controlled list in `config/brand-logos.js`.
 - Unset or broken logo files cannot be selected. Customer Proof and Production Spec require a configured logo.
